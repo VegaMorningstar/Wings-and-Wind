@@ -29,7 +29,7 @@ import {
   type Layer,
   type Sprite,
   type WingOutline,
-} from '../butterfly';
+} from '../butterflies/butterfly';
 
 import {
   Button,

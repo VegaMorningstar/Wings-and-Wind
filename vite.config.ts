@@ -8,10 +8,18 @@ export default defineConfig(({ mode }) => {
   const emitSourcemaps = mode === 'development'
 
   return {
-    // The GitHub Pages workflow (.github/workflows/deploy.yml) sets
-    // PUBLIC_BASE_PATH to `/<repo-name>` so built asset URLs resolve under
-    // the Pages subpath (e.g. /Butterflies/) instead of the domain root.
-    base: process.env.PUBLIC_BASE_PATH ? `${process.env.PUBLIC_BASE_PATH}/` : '/',
+    // Relative, so the build does not care where it is served from.
+    //
+    // A GitHub Pages project site lives under /<repo-name>/, and baking that
+    // name in at build time means renaming the repository silently breaks the
+    // deployed site: Pages moves the URL but keeps serving the last artifact,
+    // which still points every asset at the old name. That is a blank page
+    // with no error anywhere obvious.
+    //
+    // Relative paths resolve against the document, which is safe here because
+    // routing is hash-only, so the document path never changes. Set
+    // PUBLIC_BASE_PATH if you ever need an absolute base instead.
+    base: process.env.PUBLIC_BASE_PATH ? `${process.env.PUBLIC_BASE_PATH}/` : './',
     build: {
       sourcemap: emitSourcemaps ? 'inline' : false,
       minify: !emitSourcemaps,

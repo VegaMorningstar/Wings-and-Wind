@@ -21,7 +21,7 @@ import {
   SHADOW_DY,
   SS,
   type Sprite,
-} from '../butterfly';
+} from '../butterflies/butterfly';
 
 import { buildField, fieldCount, idleFold, type Bug } from './field';
 import {

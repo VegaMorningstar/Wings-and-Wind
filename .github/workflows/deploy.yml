@@ -37,9 +37,10 @@ jobs:
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
+      # No base path is passed: the build uses relative asset URLs, so it works
+      # under /<repo-name>/ whatever the repository is currently called, and a
+      # rename cannot strand the deployed site on the old path.
       - name: Build
-        env:
-          PUBLIC_BASE_PATH: /${{ github.event.repository.name }}
         run: pnpm build
 
       - name: Upload artifact

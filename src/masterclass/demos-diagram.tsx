@@ -20,7 +20,7 @@ import {
   SS,
   WING_BOX,
   drawButterfly,
-} from '../butterfly';
+} from '../butterflies/butterfly';
 
 import { Check, Figure, Readout, Segmented, Slider, Stage, T, useScene } from './kit';
 

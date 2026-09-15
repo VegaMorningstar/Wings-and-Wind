@@ -1,5 +1,5 @@
 /**
- * Regenerates public/favicon.svg from the wing geometry in src/butterfly.ts.
+ * Regenerates public/favicon.svg from the wing geometry in src/butterflies/butterfly.ts.
  *
  * The mark and the field on screen are then the same shape by construction:
  * change the wing outline and run "npm run logo" to keep them in step.
@@ -9,7 +9,7 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
-const src = fs.readFileSync(path.join(root, 'src/butterfly.ts'), 'utf8');
+const src = fs.readFileSync(path.join(root, 'src/butterflies/butterfly.ts'), 'utf8');
 
 // pull the two outline literals straight out of the source
 function grab(name) {

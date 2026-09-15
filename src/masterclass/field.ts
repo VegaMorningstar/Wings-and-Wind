@@ -4,7 +4,7 @@
  * Shared by both demo files so the placement arithmetic has one definition.
  */
 
-import { BASE_SZ, LAYERS } from '../butterfly';
+import { BASE_SZ, LAYERS } from '../butterflies/butterfly';
 import { seeded } from './kit';
 
 export interface Bug {

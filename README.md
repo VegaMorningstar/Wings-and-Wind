@@ -17,7 +17,7 @@ motion principles, the release choreography, the anatomy of a single frame, and
 the device work.
 
 All twelve of its figures are live and wired to the real sprite code in
-[`src/butterfly.ts`](src/butterfly.ts), so nothing in the walkthrough can drift
+[`src/butterflies/butterfly.ts`](src/butterflies/butterfly.ts), so nothing in the walkthrough can drift
 away from the thing it describes. Four of them measure rather than assert: DOM
 against canvas, path rendering against baked sprites, the per-stage cost of one
 frame, and the head count for whatever screen you are on.
@@ -33,7 +33,7 @@ so individual chapters stay linkable.
 
 [`public/favicon.svg`](public/favicon.svg) is the Cabbage White on the same
 near-black the field sits on. It is not redrawn by hand: `scripts/make-logo.mjs`
-reads `FOREWING` and `HINDWING` out of [`src/butterfly.ts`](src/butterfly.ts),
+reads `FOREWING` and `HINDWING` out of [`src/butterflies/butterfly.ts`](src/butterflies/butterfly.ts),
 converts the same control points into SVG path data, and rebuilds the file. So
 the logo and the butterflies on screen are the same shape by construction.
 
@@ -55,10 +55,36 @@ pnpm preview  # serve the production build
 `npm` works too if you'd rather not install pnpm; the committed lockfile is
 pnpm's.
 
+## Using it somewhere else
+
+The field is self contained in [`src/butterflies/`](src/butterflies/): no
+framework, no CSS file, no image assets, no network. Copy the folder and import
+it. It has [its own README](src/butterflies/README.md) with the full API.
+
+```js
+import { mountButterflies } from './butterflies';
+
+const field = mountButterflies(host, {
+  invite: 'Tap or click anywhere to release',
+  onReveal: () => host.classList.add('gone'),
+});
+```
+
+```jsx
+import { ButterflyLoader } from './butterflies/react';
+
+<ButterflyLoader invite="Click to release" onReveal={() => setReady(true)} />
+```
+
+Sizing comes from the container rather than the window, so it works as a
+full-screen overlay or as a panel inside a page, and several can run
+independently on one document. `prefers-reduced-motion` is honoured by default:
+the field draws nothing and hands over immediately.
+
 ## How it works
 
-Everything lives in [`src/App.tsx`](src/App.tsx), which carries a full
-architecture comment at the top. The short version:
+The field lives in [`src/butterflies/`](src/butterflies/); `src/App.tsx` only
+sequences the handover. The short version:
 
 ### Drawing
 
@@ -128,8 +154,9 @@ butterflies ahead of the clearing front.
 
 ## Tuning
 
-All the knobs are grouped at the top of `src/App.tsx` and commented in place.
-The ones worth reaching for first:
+Every knob lives in [`src/butterflies/options.ts`](src/butterflies/options.ts)
+as `DEFAULT_TUNING`, commented in place, and any subset can be passed as
+`tuning` when mounting. The ones worth reaching for first:
 
 | constant | effect |
 |---|---|
@@ -164,8 +191,13 @@ If it feels heavy on lower-end hardware, `ROW_RATIO` is the single cheapest dial
 ## Project layout
 
 ```
-src/App.tsx           field, animation loop, interaction, reveal sequencing
-src/butterfly.ts      the art: wing paths, sprite baking, scene washes
+src/App.tsx           reveal sequencing: when to hand over, what to fade
+src/butterflies/      the field, self contained (see its own README)
+  index.ts            public surface
+  field.ts            the engine, plain DOM and requestAnimationFrame
+  butterfly.ts        the art: wing paths, sprite baking, scene washes
+  options.ts          every dial, with the values it ships at
+  react.tsx           a thin React wrapper
 src/scenePause.ts     parks the walkthrough's loops while the field is up
 public/favicon.svg    the mark, generated (see below)
 scripts/make-logo.mjs regenerates the mark from the wing geometry
@@ -173,6 +205,8 @@ src/masterclass/      the "How this was built" walkthrough (lazy loaded)
   Masterclass.tsx     chapters and prose
   demos.tsx           the art, field and motion figures
   demos-arch.tsx      DOM vs canvas, frame anatomy, live head count
+  demos-diagram.tsx   sprite space, state machine, release timeline
+  ambient.tsx         butterflies drifting across the page as you read
   field.ts            field building shared by the figures
   kit.tsx             canvas hooks, controls, typographic pieces
 src/main.tsx          React entry point

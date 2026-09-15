@@ -1027,16 +1027,21 @@ const lift = -fold * SS * 0.05 * b.sz;
                 <Cite k="hints" /> rather than a CSS <K>@import</K>, which would put the two requests
                 in series.
               </P>
-              <Note kind="watch">
-                <K>prefers-reduced-motion</K> <Cite k="mq5" /> is honoured by the butterflies that
-                drift across this page, which render nothing at all when it is set, but{' '}
-                <Em>not</Em> by the loading field itself. For a full screen of continuous movement
-                that is a real accessibility failure, covered directly by WCAG Success Criterion
-                2.3.3 <Cite k="wcag" /> and restated in Apple&apos;s platform guidance on motion{' '}
-                <Cite k="applehig" />. The skip helps and is not a substitute. The honest fix is a
-                static field with the release available immediately, and it is the outstanding item
-                on this build.
+              <Note>
+                <K>prefers-reduced-motion</K> <Cite k="mq5" /> is honoured throughout. The
+                butterflies drifting across this page render nothing when it is set, and the
+                loading field hands straight over without drawing a frame. A full screen of
+                continuous movement is precisely what that preference exists to suppress, which
+                WCAG Success Criterion 2.3.3 <Cite k="wcag" /> and Apple&apos;s motion guidance{' '}
+                <Cite k="applehig" /> both say directly.
               </Note>
+              <P>
+                It was not always true. For most of this build the field ignored the preference,
+                and the honest reason it does not any more is that the field was packaged to be
+                dropped into other people&apos;s pages. Shipping that omission once is a bug.
+                Shipping it as a component for other people to install is a bug with a
+                distribution channel.
+              </P>
             </Detail>
 
             <Rule tight />

@@ -16,7 +16,7 @@
 
 import { useEffect, useRef } from 'react';
 
-import { makeBody, makeWing, SS, type Layer, type Sprite } from '../butterfly';
+import { makeBody, makeWing, SS, type Layer, type Sprite } from '../butterflies/butterfly';
 import { scenesPaused } from '../scenePause';
 
 // The quiet is measured from the moment the page empties, not from the last
